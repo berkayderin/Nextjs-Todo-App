@@ -1,8 +1,6 @@
 import { Card, Col, ListGroup, Row } from 'react-bootstrap'
 import { FiEdit, FiEye, FiTrash } from 'react-icons/fi'
 
-import React from 'react'
-
 const CardItem: React.FC = () => {
 	return (
 		<Card>
