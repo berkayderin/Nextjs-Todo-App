@@ -1,10 +1,9 @@
 import { Button, FloatingLabel, Form, Modal } from 'react-bootstrap'
 import { Resolver, useForm } from 'react-hook-form'
-import { addDoc, collection } from 'firebase/firestore'
 
 import React from 'react'
-import db from '@/app/firebaseConfig'
-import { toast } from 'react-toastify'
+import Service from '@/global/Service'
+import { sendToast } from '@/global/sendToast'
 
 interface AddModalProps {
 	show: boolean
@@ -44,22 +43,17 @@ const AddModal: React.FC<AddModalProps> = ({ show, handleClose }) => {
 		formState: { errors }
 	} = useForm<FormValues>({ resolver })
 
-	const onSubmit = handleSubmit((data) => {
-		console.log(data)
+	const handleSave = async (data: FormValues) => {
 		try {
-			addDoc(collection(db, 'tasks'), {
-				name: data.name,
-				description: data.description,
-				createdAt: new Date()
-			})
-			toast.success('Görev başarıyla eklendi!')
-			handleClose()
+			const respose = await Service.post('/task', data)
+			sendToast(respose.data.message, true)
 			reset()
+			handleClose()
 		} catch (error) {
-			console.error('Error adding document: ', error)
-			toast.error('Görev eklenirken bir hata oluştu.')
+			sendToast('Bir hata oluştu!', false)
+			console.error('Error:', error)
 		}
-	})
+	}
 
 	return (
 		<Modal show={show} onHide={handleClose} centered>
@@ -92,7 +86,7 @@ const AddModal: React.FC<AddModalProps> = ({ show, handleClose }) => {
 				<Button variant="danger" onClick={handleClose}>
 					İptal
 				</Button>
-				<Button variant="primary" type="submit" onClick={onSubmit}>
+				<Button variant="primary" type="submit" onClick={handleSubmit(handleSave)}>
 					Oluştur
 				</Button>
 			</Modal.Footer>
