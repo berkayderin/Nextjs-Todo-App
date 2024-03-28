@@ -33,8 +33,8 @@ const TabsNavigation = () => {
 				<Col sm={3} className="mb-3">
 					<NavPill
 						tabs={[
-							{ eventKey: 'first', label: 'Tamamlanmış' },
-							{ eventKey: 'second', label: 'Tamamlanmamış' }
+							{ eventKey: 'first', label: 'Tamamlanmamış' },
+							{ eventKey: 'second', label: ' Tamamlanmış' }
 						]}
 					/>
 				</Col>
@@ -42,11 +42,11 @@ const TabsNavigation = () => {
 					<Tab.Content>
 						{/* tamamlanmış todolar */}
 						<TabPaneContent eventKey="first">
-							<TodoList data={isCompleted} />
+							<TodoList data={isNotCompleted} />
 						</TabPaneContent>
 						{/* tamamlanmamış todolar */}
 						<TabPaneContent eventKey="second">
-							<TodoList data={isNotCompleted} />
+							<TodoList data={isCompleted} />
 						</TabPaneContent>
 					</Tab.Content>
 				</Col>

@@ -20,12 +20,12 @@ const Home: React.FC = () => {
 				</Col>
 				<Col md={6} className="d-flex justify-content-center align-items-center gap-2">
 					<Form.Control type="text" placeholder="Ara..." />
-					<Button variant="primary" className="ml-2">
+					<Button variant="primary" className="ml-2 bg-gradient">
 						Ara
 					</Button>
 				</Col>
 				<Col md={3}>
-					<Button variant="success" onClick={handleShow} className="w-100 mt-3 mt-md-0">
+					<Button variant="success" onClick={handleShow} className="w-100 mt-3 mt-md-0 bg-gradient">
 						Görev Ekle
 					</Button>
 				</Col>
