@@ -12,6 +12,8 @@ export const metadata: Metadata = {
 	title: 'Todo App'
 }
 
+export const revalidate = 0
+
 export default function RootLayout({
 	children
 }: Readonly<{
@@ -19,7 +21,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>
+			<body className={inter.className} suppressHydrationWarning={true}>
 				<ToastContainer />
 				{children}
 			</body>

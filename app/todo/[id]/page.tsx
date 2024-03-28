@@ -6,24 +6,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 
 import { ITodo } from '@/components/tabsNavigation/models/ITodo'
-import TodoForm from '@/components/pages/todoForm'
 import db from '@/app/firebaseConfig'
-
-const TODOS_COLLECTION = 'todos'
-
-async function fetchTodoById(todoId: string): Promise<ITodo | null> {
-	const docRef = doc(db, TODOS_COLLECTION, todoId)
-	const docSnap = await getDoc(docRef)
-
-	if (docSnap.exists()) {
-		return {
-			id: docSnap.id,
-			...(docSnap.data() as ITodo)
-		}
-	} else {
-		return null
-	}
-}
 
 const TodoDetail = () => {
 	const [todo, setTodo] = useState<ITodo | null>(null)
@@ -31,19 +14,46 @@ const TodoDetail = () => {
 	const router = useRouter()
 
 	useEffect(() => {
+		const fetchTodoById = async (todoId: string): Promise<ITodo | null> => {
+			const docRef = doc(db, 'todos', todoId)
+			const docSnap = await getDoc(docRef)
+
+			if (docSnap.exists()) {
+				let todoData = docSnap.data() as ITodo
+
+				const { id, ...rest } = todoData
+				return {
+					id: docSnap.id,
+					...rest
+				}
+			} else {
+				return null
+			}
+		}
+
 		if (id) {
-			fetchTodoById(id as string)
-				.then(setTodo)
-				.catch(console.error)
+			const todoId = typeof id === 'string' ? id : id[0]
+			fetchTodoById(todoId).then(setTodo).catch(console.error)
 		}
 	}, [id])
-
-	if (!todo) return <p>Yükleniyor...</p>
 
 	return (
 		<Container className="d-flex flex-column justify-content-center align-items-center mt-5">
 			<h1>Görev Detayı</h1>
-			<TodoForm todo={todo} />
+			<Form>
+				<Form.Group className="mb-3">
+					<Form.Label>Görev Adı</Form.Label>
+					<Form.Control type="text" value={todo?.name || ''} readOnly />
+				</Form.Group>
+				<Form.Group className="mb-3">
+					<Form.Label>Görev Açıklaması</Form.Label>
+					<Form.Control as="textarea" rows={3} value={todo?.description || ''} readOnly />
+				</Form.Group>
+				<Form.Group className="mb-3">
+					<Form.Label>Görev Durumu</Form.Label>
+					<Form.Control type="text" value={todo?.isCompleted ? 'Tamamlandı' : 'Tamamlanmadı'} readOnly />
+				</Form.Group>
+			</Form>
 			<Button variant="primary" onClick={() => router.push('/')}>
 				Geri Dön
 			</Button>

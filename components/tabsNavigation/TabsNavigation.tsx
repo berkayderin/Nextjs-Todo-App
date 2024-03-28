@@ -1,30 +1,16 @@
-import { Button, Col, Form, Row, Tab } from 'react-bootstrap'
-import React, { useEffect, useState } from 'react'
+import { Col, Form, Row, Tab } from 'react-bootstrap'
 
 import { ITodo } from './models/ITodo'
 import NavPill from '../navPill/NavPill'
-import Service from '@/global/Service'
 import TabPaneContent from '../tabPaneContent/TabPaneContent'
 import TodoList from '../todoList/TodoList'
 
-const TabsNavigation = () => {
-	const [todos, setTodos] = useState<ITodo[]>([])
+interface TabsNavigationProps {
+	todos: ITodo[]
+	onDeleteTodo: (id: string) => void
+}
 
-	const fetchData = async () => {
-		try {
-			const response = await Service.get('/api/todos')
-			const todos = response.data
-			setTodos(todos)
-			console.log('datalar:', todos)
-		} catch (error) {
-			console.error(error)
-		}
-	}
-
-	useEffect(() => {
-		fetchData()
-	}, [])
-
+const TabsNavigation = ({ todos, onDeleteTodo }: TabsNavigationProps) => {
 	const isCompleted = todos.filter((todo) => todo.isCompleted)
 	const isNotCompleted = todos.filter((todo) => !todo.isCompleted)
 	return (
@@ -42,11 +28,11 @@ const TabsNavigation = () => {
 					<Tab.Content>
 						{/* tamamlanmış todolar */}
 						<TabPaneContent eventKey="first">
-							<TodoList data={isNotCompleted} />
+							<TodoList data={isNotCompleted} onDelete={onDeleteTodo} />
 						</TabPaneContent>
 						{/* tamamlanmamış todolar */}
 						<TabPaneContent eventKey="second">
-							<TodoList data={isCompleted} />
+							<TodoList data={isCompleted} onDelete={onDeleteTodo} />
 						</TabPaneContent>
 					</Tab.Content>
 				</Col>
