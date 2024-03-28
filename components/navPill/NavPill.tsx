@@ -1,5 +1,5 @@
 import { Nav } from 'react-bootstrap'
-import NavItemLink from './NavItemLink'
+import NavItemLink from '../navItemLink/NavItemLink'
 import React from 'react'
 
 interface Tab {

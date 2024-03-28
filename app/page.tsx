@@ -3,8 +3,8 @@
 import { Button, Col, Container, Form, Row } from 'react-bootstrap'
 import React, { useState } from 'react'
 
-import AddModal from '@/components/AddModal'
-import TabsNavigation from '@/components/TabsNavigation'
+import AddModal from '@/components/modals/AddModal'
+import TabsNavigation from '@/components/tabsNavigation/TabsNavigation'
 
 const Home: React.FC = () => {
 	const [show, setShow] = useState(false)
@@ -25,7 +25,7 @@ const Home: React.FC = () => {
 					</Button>
 				</Col>
 				<Col md={3}>
-					<Button variant="success" onClick={handleShow} className="w-100">
+					<Button variant="success" onClick={handleShow} className="w-100 mt-3 mt-md-0">
 						Görev Ekle
 					</Button>
 				</Col>
