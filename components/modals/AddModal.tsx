@@ -45,7 +45,7 @@ const AddModal: React.FC<AddModalProps> = ({ show, handleClose }) => {
 
 	const handleSave = async (data: FormValues) => {
 		try {
-			const respose = await Service.post('/task', data)
+			const respose = await Service.post('/api/todos', data)
 			sendToast(respose.data.message, true)
 			reset()
 			handleClose()
