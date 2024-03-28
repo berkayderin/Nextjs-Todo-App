@@ -1,28 +1,29 @@
 import { Card, Col, ListGroup, Row } from 'react-bootstrap'
 import { FiEdit, FiEye, FiTrash } from 'react-icons/fi'
-import { deleteDoc, doc } from 'firebase/firestore'
 
 import { ITodo } from '../tabsNavigation/models/ITodo'
-import db from '@/app/firebaseConfig'
-import { sendToast } from '@/global/sendToast'
+import Service from '@/utils/Service'
+import { sendToast } from '@/hooks/useCustomToast'
 import { useRouter } from 'next/navigation'
 
-const TodoList = ({ data }: { data?: ITodo[] }) => {
+const TodoList = ({ data, onDelete }: { data?: ITodo[]; onDelete: (id: string) => void }) => {
 	const router = useRouter()
 
-	const handleDelete = (id: string) => {
+	const handleDelete = async (id: string) => {
 		try {
-			deleteDoc(doc(db, 'todos', id))
+			await Service.delete(`/todos/${id}`)
+			onDelete(id)
 			sendToast('Görev başarıyla silindi.', true)
 		} catch (error) {
-			sendToast('Görev silinirken bir hata oluştu.', false)
+			console.log('delete error: ', error)
 		}
 	}
 
+	const sortedData = data?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 	return (
 		<Card>
 			<ListGroup variant="flush">
-				{data?.map((todo) => (
+				{sortedData?.map((todo) => (
 					<ListGroup.Item key={todo.id}>
 						<Row>
 							<Col>{todo.name}</Col>

@@ -48,7 +48,7 @@ export async function POST(request: Request): Promise<Response> {
 }
 
 // todo listesini getirmek için GET metodu
-export async function GET(): Promise<Response> {
+export async function GET() {
 	const todos: Todos[] = []
 
 	const querySnapshot = await getDocs(collection(db, 'todos'))

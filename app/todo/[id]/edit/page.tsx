@@ -5,14 +5,15 @@ import React, { useEffect } from 'react'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { useParams, useRouter } from 'next/navigation'
 
-import { ITodo } from '@/components/tabsNavigation/models/ITodo'
 import db from '@/app/firebaseConfig'
 import { useForm } from 'react-hook-form'
 
 interface TodoFormValues {
+	id: any
 	name: string
 	description: string
 	isCompleted: boolean
+	createdAt: string
 }
 
 const TodoEdit = () => {
@@ -21,11 +22,11 @@ const TodoEdit = () => {
 	const { id } = useParams()
 
 	useEffect(() => {
-		const fetchTodo = async (id: string) => {
+		const fetchTodo = async (id: any) => {
 			const todoRef = doc(db, 'todos', id)
 			const todoSnap = await getDoc(todoRef)
 			if (todoSnap.exists()) {
-				const todoData = todoSnap.data() as ITodo
+				const todoData = todoSnap.data() as TodoFormValues
 				setValue('name', todoData.name)
 				setValue('description', todoData.description)
 				setValue('isCompleted', todoData.isCompleted)
@@ -35,14 +36,19 @@ const TodoEdit = () => {
 		}
 
 		if (id) {
-			fetchTodo(id as string)
+			fetchTodo(id as any)
 		}
 	}, [id, setValue])
 
 	const onSubmit = async (data: TodoFormValues) => {
 		if (id) {
-			const todoRef = doc(db, 'todos', id as string)
-			await updateDoc(todoRef, data)
+			const todoRef = doc(db, 'todos', id as any)
+			const todoData = {
+				name: data.name,
+				description: data.description,
+				isCompleted: data.isCompleted
+			}
+			await updateDoc(todoRef, todoData)
 			router.push('/')
 		}
 	}
@@ -73,11 +79,11 @@ const TodoEdit = () => {
 							<Form.Check type="switch" id="isCompleted" label="Tamamlandı mı?" {...register('isCompleted')} />
 						</Form.Group>
 						<Form.Group className="d-flex justify-content-end gap-2">
-							<Button variant="primary" type="submit" onClick={handleSubmit(onSubmit)}>
-								Kaydet
-							</Button>
 							<Button variant="danger" onClick={() => router.push('/')}>
 								Vazgeç
+							</Button>
+							<Button variant="primary" type="submit" onClick={handleSubmit(onSubmit)}>
+								Kaydet
 							</Button>
 						</Form.Group>
 					</Form>
