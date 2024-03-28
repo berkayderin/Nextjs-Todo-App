@@ -12,7 +12,7 @@ interface NavPillProps {
 }
 
 const NavPill: React.FC<NavPillProps> = ({ tabs }) => (
-	<Nav variant="pills" className="flex-column">
+	<Nav variant="pills" className="flex-column bg-gradient text-light">
 		{tabs.map((tab) => (
 			<NavItemLink key={tab.eventKey} eventKey={tab.eventKey}>
 				{tab.label}

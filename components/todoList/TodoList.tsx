@@ -38,6 +38,14 @@ const TodoList = ({ data }: { data?: ITodo[] }) => {
 						</Row>
 					</ListGroup.Item>
 				))}
+
+				{data?.length === 0 && (
+					<ListGroup.Item>
+						<Row className="d-flex justify-content-center">
+							<Col>Henüz görev eklenmedi.</Col>
+						</Row>
+					</ListGroup.Item>
+				)}
 			</ListGroup>
 		</Card>
 	)
