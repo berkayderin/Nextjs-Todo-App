@@ -1,4 +1,4 @@
-# Todo-App-Anytime README
+# Todo-App-Anytime
 
 ## Proje Hakkında
 
@@ -23,10 +23,8 @@ Projeyi lokalde çalıştırmak için aşağıdaki adımları takip ediniz:
 - **Responsive Tasarım**: Her türlü cihazda sorunsuz çalışacak şekilde tasarlanmıştır.
 
 ## Teknolojiler
-
-- **React**: Kullanıcı arayüzü geliştirme.
-- **Next.js**: Sunucu tarafı işlemler ve sayfa yönlendirme.
-- **Firebase**: Veritabanı ve oturum yönetimi.
+- **Next.js**: Fullstack teknoloji.
+- **Firebase**: Veritabanı işlemleri.
 - **Axios**: HTTP istekleri için kullanılır.
 - **React Bootstrap**: Arayüz bileşenleri.
 - **React Toastify**: Bildirim mesajları için kullanılır.
