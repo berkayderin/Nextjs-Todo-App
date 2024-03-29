@@ -5,7 +5,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 
-import { ITodo } from '@/components/tabsNavigation/models/ITodo'
+import { ITodo } from '@/models/ITodo'
 import db from '@/app/firebaseConfig'
 
 const TodoDetail = () => {

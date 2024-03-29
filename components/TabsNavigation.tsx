@@ -1,9 +1,9 @@
 import { Col, Form, Row, Tab } from 'react-bootstrap'
 
-import { ITodo } from './models/ITodo'
-import NavPill from '../navPill/NavPill'
-import TabPaneContent from '../tabPaneContent/TabPaneContent'
-import TodoList from '../todoList/TodoList'
+import { ITodo } from '../models/ITodo'
+import NavPill from './NavPill'
+import TabPaneContent from './TabPaneContent'
+import TodoList from './TodoList'
 
 interface TabsNavigationProps {
 	todos: ITodo[]
