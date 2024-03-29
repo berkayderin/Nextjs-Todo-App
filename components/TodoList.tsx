@@ -1,12 +1,12 @@
 import { Card, Col, ListGroup, Row } from 'react-bootstrap'
 import { FiEdit, FiEye, FiTrash } from 'react-icons/fi'
 
-import { ITodo } from '../models/ITodo'
+import { ITodos } from '@/models/ITodos'
 import Service from '@/utils/Service'
 import { sendToast } from '@/hooks/useCustomToast'
 import { useRouter } from 'next/navigation'
 
-const TodoList = ({ data, onDelete }: { data?: ITodo[]; onDelete: (id: string) => void }) => {
+const TodoList = ({ data, onDelete }: { data?: ITodos[]; onDelete: (id: string) => void }) => {
 	const router = useRouter()
 
 	const handleDelete = async (id: string) => {
@@ -26,7 +26,10 @@ const TodoList = ({ data, onDelete }: { data?: ITodo[]; onDelete: (id: string) =
 				{sortedData?.map((todo) => (
 					<ListGroup.Item key={todo.id}>
 						<Row>
-							<Col>{todo.name}</Col>
+							<Col>
+								<span className="fw-semibold me-1">Görev:</span>
+								{todo.name}
+							</Col>
 							<Col className="d-flex justify-content-end align-items-center gap-2">
 								<FiEye className="mr-2" style={{ cursor: 'pointer' }} onClick={() => router.push(`/todo/${todo.id}`)} />
 								<FiEdit

@@ -2,10 +2,10 @@
 
 import { Button, Col, Container, FloatingLabel, Form, Row } from 'react-bootstrap'
 import React, { useEffect } from 'react'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { useParams, useRouter } from 'next/navigation'
 
-import db from '@/app/firebaseConfig'
+import axios from 'axios'
+import { sendToast } from '@/hooks/useCustomToast'
 import { useForm } from 'react-hook-form'
 
 interface TodoFormValues {
@@ -23,15 +23,16 @@ const TodoEdit = () => {
 
 	useEffect(() => {
 		const fetchTodo = async (id: any) => {
-			const todoRef = doc(db, 'todos', id)
-			const todoSnap = await getDoc(todoRef)
-			if (todoSnap.exists()) {
-				const todoData = todoSnap.data() as TodoFormValues
-				setValue('name', todoData.name)
-				setValue('description', todoData.description)
-				setValue('isCompleted', todoData.isCompleted)
-			} else {
-				console.error('Todo not found')
+			try {
+				const response = await axios.get(`/api/todos/${id}`)
+				if (response.data) {
+					const todoData = response.data as TodoFormValues
+					setValue('name', todoData.name)
+					setValue('description', todoData.description)
+					setValue('isCompleted', todoData.isCompleted)
+				}
+			} catch (error) {
+				console.error('Todo not found', error)
 			}
 		}
 
@@ -41,15 +42,13 @@ const TodoEdit = () => {
 	}, [id, setValue])
 
 	const onSubmit = async (data: TodoFormValues) => {
-		if (id) {
-			const todoRef = doc(db, 'todos', id as any)
-			const todoData = {
-				name: data.name,
-				description: data.description,
-				isCompleted: data.isCompleted
-			}
-			await updateDoc(todoRef, todoData)
+		try {
+			const response = await axios.put(`/api/todos/${id}`, data)
+			sendToast(response.data.message, true)
 			router.push('/')
+		} catch (error) {
+			console.error('Görev güncelleme hatası.', error)
+			sendToast('Görev güncelleme sırasında bir hata oluştu.', false)
 		}
 	}
 
@@ -58,7 +57,7 @@ const TodoEdit = () => {
 			<h1>Görev Düzenleme</h1>
 			<Row className="w-100 justify-content-center align-items-center mt-2">
 				<Col md={6}>
-					<Form>
+					<Form onSubmit={handleSubmit(onSubmit)}>
 						<Form.Group className="mb-3">
 							<FloatingLabel label="Görev Adı">
 								<Form.Control type="text" placeholder="Görev Adı" {...register('name')} />
@@ -82,7 +81,7 @@ const TodoEdit = () => {
 							<Button variant="danger" onClick={() => router.push('/')}>
 								Vazgeç
 							</Button>
-							<Button variant="primary" type="submit" onClick={handleSubmit(onSubmit)}>
+							<Button variant="primary" type="submit">
 								Kaydet
 							</Button>
 						</Form.Group>

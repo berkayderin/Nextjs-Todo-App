@@ -10,16 +10,8 @@ import {
 	updateDoc
 } from 'firebase/firestore'
 
+import { ITodos } from '@/models/ITodos'
 import db from '@/app/firebaseConfig'
-
-interface Todos {
-	id: string
-	name: string
-	description: string
-	isCompleted: boolean
-	createdAt: string
-	updatedAt: string
-}
 
 // todo eklemek için POST metodu
 export async function POST(request: Request): Promise<Response> {
@@ -49,7 +41,7 @@ export async function POST(request: Request): Promise<Response> {
 
 // todo listesini getirmek için GET metodu
 export async function GET() {
-	const todos: Todos[] = []
+	const todos: ITodos[] = []
 
 	const querySnapshot = await getDocs(collection(db, 'todos'))
 
