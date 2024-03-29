@@ -1,7 +1,7 @@
 import { Card, Col, ListGroup, Row } from 'react-bootstrap'
 import { FiEdit, FiEye, FiTrash } from 'react-icons/fi'
 
-import { ITodo } from '../tabsNavigation/models/ITodo'
+import { ITodo } from '../models/ITodo'
 import Service from '@/utils/Service'
 import { sendToast } from '@/hooks/useCustomToast'
 import { useRouter } from 'next/navigation'

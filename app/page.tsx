@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react'
 
 import { Container } from 'react-bootstrap'
-import Header from '@/components/header/Header'
-import { ITodo } from '@/components/tabsNavigation/models/ITodo'
+import Header from '@/components/Header'
+import { ITodo } from '@/models/ITodo'
 import Service from '@/utils/Service'
-import TabsNavigation from '@/components/tabsNavigation/TabsNavigation'
+import TabsNavigation from '@/components/TabsNavigation'
 
 const Home = () => {
 	const [todos, setTodos] = useState<ITodo[]>([])
