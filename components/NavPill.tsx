@@ -1,14 +1,9 @@
+import { ITab } from '@/models/ITab'
 import { Nav } from 'react-bootstrap'
 import NavItemLink from './NavItemLink'
-import React from 'react'
-
-interface Tab {
-	eventKey: string
-	label: string
-}
 
 interface NavPillProps {
-	tabs: Tab[]
+	tabs: ITab[]
 }
 
 const NavPill: React.FC<NavPillProps> = ({ tabs }) => (

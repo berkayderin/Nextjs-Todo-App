@@ -1,4 +1,4 @@
-import { Col, Form, Row, Tab } from 'react-bootstrap'
+import { Col, Row, Tab } from 'react-bootstrap'
 
 import { ITodo } from '../models/ITodo'
 import NavPill from './NavPill'
@@ -11,8 +11,8 @@ interface TabsNavigationProps {
 }
 
 const TabsNavigation = ({ todos, onDeleteTodo }: TabsNavigationProps) => {
-	const isCompleted = todos.filter((todo) => todo.isCompleted)
-	const isNotCompleted = todos.filter((todo) => !todo.isCompleted)
+	const isCompleted = todos.filter((todo) => todo.isCompleted) // tamamlanmış todolar
+	const isNotCompleted = todos.filter((todo) => !todo.isCompleted) // tamamlanmamış todolar
 	return (
 		<Tab.Container id="left-tabs-example" defaultActiveKey="first">
 			<Row className="d-flex justify-content-center w-100">

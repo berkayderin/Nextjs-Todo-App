@@ -1,6 +1,5 @@
 import { Button, Col, Form, Row } from 'react-bootstrap'
 
-import React from 'react'
 import { useRouter } from 'next/navigation'
 
 const Header = () => {

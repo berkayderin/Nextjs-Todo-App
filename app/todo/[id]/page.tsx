@@ -1,12 +1,11 @@
 'use client'
 
 import { Button, Container, Form } from 'react-bootstrap'
-import { doc, getDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 
 import { ITodo } from '@/models/ITodo'
-import db from '@/app/firebaseConfig'
+import axios from 'axios'
 
 const TodoDetail = () => {
 	const [todo, setTodo] = useState<ITodo | null>(null)
@@ -14,26 +13,20 @@ const TodoDetail = () => {
 	const router = useRouter()
 
 	useEffect(() => {
-		const fetchTodoById = async (todoId: string): Promise<ITodo | null> => {
-			const docRef = doc(db, 'todos', todoId)
-			const docSnap = await getDoc(docRef)
-
-			if (docSnap.exists()) {
-				let todoData = docSnap.data() as ITodo
-
-				const { id, ...rest } = todoData
-				return {
-					id: docSnap.id,
-					...rest
-				}
-			} else {
-				return null
+		const fetchTodoById = async (todoId: string) => {
+			try {
+				const response = await axios.get(`/api/todos/${todoId}`)
+				const todoData = response.data
+				console.log('Todo details:', todoData)
+				setTodo(todoData)
+			} catch (error) {
+				console.log('todo detail error:', error)
 			}
 		}
 
 		if (id) {
 			const todoId = typeof id === 'string' ? id : id[0]
-			fetchTodoById(todoId).then(setTodo).catch(console.error)
+			fetchTodoById(todoId)
 		}
 	}, [id])
 
