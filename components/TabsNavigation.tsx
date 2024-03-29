@@ -1,12 +1,13 @@
 import { Col, Row, Tab } from 'react-bootstrap'
 
 import { ITodo } from '../models/ITodo'
+import { ITodos } from '@/models/ITodos'
 import NavPill from './NavPill'
 import TabPaneContent from './TabPaneContent'
 import TodoList from './TodoList'
 
 interface TabsNavigationProps {
-	todos: ITodo[]
+	todos: ITodos[]
 	onDeleteTodo: (id: string) => void
 }
 
